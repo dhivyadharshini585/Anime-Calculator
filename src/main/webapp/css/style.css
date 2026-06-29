@@ -1,0 +1,1153 @@
+/* ============================================
+   NARUTO SHIPPUDEN CALCULATOR
+   PART 1
+   ============================================ */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:url("../images/background.png");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
+    position:relative;
+}
+
+/* Dark Overlay */
+
+body::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(5px);
+
+    z-index:0;
+}
+
+/* Main Wrapper */
+
+.background{
+
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+
+    z-index:1;
+}
+
+/* Calculator */
+
+.calculator-container{
+
+    width:430px;
+
+    padding:28px;
+
+    border-radius:30px;
+
+    background:rgba(25,25,25,.45);
+
+    backdrop-filter:blur(20px);
+
+    position:relative;
+
+    border:2px solid rgba(255,140,0,.5);
+
+    box-shadow:
+
+            0 0 25px rgba(255,140,0,.35),
+
+            0 0 70px rgba(255,90,0,.18),
+
+            inset 0 0 18px rgba(255,255,255,.08);
+
+    transition:.4s;
+}
+
+.calculator-container:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+
+            0 0 35px orange,
+
+            0 0 80px rgba(255,120,0,.4);
+}
+
+/* Naruto Header */
+
+.header-image{
+
+    width:100%;
+
+    height:150px;
+
+    object-fit:cover;
+
+    border-radius:18px;
+
+    margin-bottom:22px;
+
+    border:3px solid orange;
+
+    box-shadow:
+
+            0 0 18px orange,
+
+            0 0 35px rgba(255,140,0,.5);
+}
+
+/* Display */
+
+.display{
+
+    width:100%;
+
+    height:75px;
+
+    margin-bottom:22px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    background:rgba(255,248,220,.92);
+
+    color:#222;
+
+    font-size:34px;
+
+    text-align:right;
+
+    font-weight:bold;
+
+    letter-spacing:2px;
+
+    box-shadow:
+
+            inset 0 4px 12px rgba(0,0,0,.25),
+
+            0 0 18px rgba(255,180,0,.4);
+}
+
+/* Error */
+
+.error{
+
+    color:#ff4d4d;
+
+    text-align:center;
+
+    margin-bottom:18px;
+
+    font-weight:bold;
+
+    font-size:17px;
+
+    text-shadow:
+
+            0 0 10px red;
+}
+
+/* Table */
+
+.calculator-table{
+
+    width:100%;
+
+    border-collapse:separate;
+
+    border-spacing:12px;
+}
+/* ============================================
+   BUTTON STYLING
+   PART 2
+============================================ */
+
+.calculator-table td{
+
+    width:85px;
+    height:85px;
+
+    text-align:center;
+}
+
+/* Common Button Style */
+
+.calculator-table button{
+
+    width:100%;
+    height:85px;
+
+    border:none;
+    outline:none;
+
+    cursor:pointer;
+
+    border-radius:18px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+    background-color:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(8px);
+
+    box-shadow:
+            inset 0 0 8px rgba(255,255,255,.08),
+            0 5px 15px rgba(0,0,0,.45);
+}
+
+/* Hover */
+
+.calculator-table button:hover{
+
+    transform:
+
+            translateY(-4px)
+            scale(1.05);
+
+    box-shadow:
+
+            0 0 18px orange,
+
+            0 0 35px rgba(255,140,0,.55);
+
+}
+
+/* Click Animation */
+
+.calculator-table button:active{
+
+    transform:
+
+            scale(.94);
+
+}
+
+/* Shine Effect */
+
+.calculator-table button::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-120%;
+
+    width:60%;
+    height:100%;
+
+    background:
+
+            linear-gradient(
+
+                    120deg,
+
+                    transparent,
+
+                    rgba(255,255,255,.45),
+
+                    transparent
+
+            );
+
+    transition:.6s;
+}
+
+.calculator-table button:hover::before{
+
+    left:150%;
+}
+
+/* ============================================
+   NUMBER BUTTONS
+============================================ */
+.number{
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    background-color:#111;
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    color:white;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    text-shadow:
+            0 0 5px black,
+            0 0 10px black,
+            0 0 15px black,
+            0 0 20px black;
+}
+/* ============================================
+   OPERATOR BUTTONS
+============================================ */
+
+.operator{
+
+    background:
+
+            linear-gradient(
+
+                    145deg,
+
+                    #ff9800,
+
+                    #ff6f00
+
+            );
+
+    color:white;
+
+    font-size:32px;
+
+    box-shadow:
+
+            0 0 15px orange,
+
+            inset 0 0 8px rgba(255,255,255,.25);
+
+}
+
+.operator:hover{
+
+    background:
+
+            linear-gradient(
+
+                    145deg,
+
+                    #ffb300,
+
+                    #ff8f00
+
+            );
+
+}
+
+/* ============================================
+   CLEAR BUTTON
+============================================ */
+
+.clearButton{
+
+    border:2px solid #ffee58;
+
+}
+
+/* ============================================
+   BACKSPACE
+============================================ */
+
+.backspace{
+
+    background:
+
+            linear-gradient(
+
+                    145deg,
+
+                    #5c6bc0,
+
+                    #3949ab
+
+            );
+
+    color:white;
+
+    font-size:32px;
+
+}
+
+.backspace:hover{
+
+    box-shadow:
+
+            0 0 18px #7986cb;
+
+}
+
+/* ============================================
+   EQUAL BUTTON
+============================================ */
+
+.equal{
+
+    background:
+
+            linear-gradient(
+
+                    145deg,
+
+                    #ff9800,
+
+                    #ff5722
+
+            );
+
+    color:white;
+
+    font-size:38px;
+
+    font-weight:bold;
+
+    letter-spacing:2px;
+
+    border:2px solid gold;
+
+    box-shadow:
+
+            0 0 20px orange,
+
+            0 0 45px gold;
+
+    animation:
+            narutoGlow 2s infinite alternate,
+            pulse 2s infinite;
+
+}
+
+.equal span{
+
+    position:absolute;
+
+    left:18px;
+    bottom:12px;
+
+    z-index:5;
+
+    font-size:42px;
+    font-weight:bold;
+    color:white;
+
+    text-shadow:
+            0 0 8px black,
+            0 0 15px black,
+            0 0 20px black;
+}
+.equal:hover{
+
+    transform:
+
+            scale(1.08);
+
+    box-shadow:
+
+            0 0 25px gold,
+
+            0 0 60px orange;
+
+}
+
+.equal:active{
+
+    transform:scale(.95);
+
+}
+
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.04);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
+/* ============================================
+   CHARACTER BUTTON IMAGES
+   PART 3
+============================================ */
+
+/* 7 */
+
+.kakashi{
+
+    background-image:url("../images/kakashi.png");
+
+}
+
+/* 8 */
+
+.sasuke{
+
+    background-image:url("../images/sasuke.png");
+
+}
+
+/* 9 */
+
+.itachi{
+
+    background-image:url("../images/itachi.png");
+
+}
+
+/* 4 */
+
+.shikamaru{
+
+    background-image:url("../images/shikamaru.png");
+
+}
+
+/* 5 */
+
+.gaara{
+
+    background-image:url("../images/gaara.png");
+
+}
+
+/* 6 */
+
+.neji{
+
+    background-image:url("../images/neji.png");
+
+}
+
+/* 1 */
+
+.rocklee{
+
+    background-image:url("../images/rocklee.png");
+
+}
+
+/* 2 */
+
+.hinata{
+
+    background-image:url("../images/hinata.png");
+
+}
+
+/* 3 */
+
+.sakura{
+
+    background-image:url("../images/sakura.png");
+
+}
+
+/* 0 */
+
+.jiraiya{
+
+    background-image:url("../images/jiraiya.png");
+
+}
+
+/* . */
+
+.orochimaru{
+
+    background-image:url("../images/orochimaru.png");
+
+}
+
+/* C */
+
+.minato{
+
+    background-image:url("../images/minato.png");
+
+}
+
+/* ============================================
+   COMMON IMAGE SETTINGS
+============================================ */
+
+.kakashi,
+.sasuke,
+.itachi,
+.shikamaru,
+.gaara,
+.neji,
+.rocklee,
+.hinata,
+.sakura,
+.jiraiya,
+.orochimaru,
+.minato{
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-color:#111;
+
+    background-repeat:no-repeat;
+
+    position:relative;
+
+}
+
+/* ============================================
+   DARK GLASS OVERLAY
+============================================ */
+
+.kakashi::after,
+.sasuke::after,
+.itachi::after,
+.shikamaru::after,
+.gaara::after,
+.neji::after,
+.rocklee::after,
+.hinata::after,
+.sakura::after,
+.jiraiya::after,
+.orochimaru::after,
+.minato::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,.05);
+
+    border-radius:18px;
+
+    z-index:1;
+
+    pointer-events:none;
+}
+
+.kakashi:hover::after,
+.sasuke:hover::after,
+.itachi:hover::after,
+.shikamaru:hover::after,
+.gaara:hover::after,
+.neji:hover::after,
+.rocklee:hover::after,
+.hinata:hover::after,
+.sakura:hover::after,
+.jiraiya:hover::after,
+.orochimaru:hover::after,
+.minato:hover::after{
+
+    background:rgba(0,0,0,.15);
+
+}
+
+/* ============================================
+   NUMBER VISIBILITY
+============================================ */
+
+
+
+/* ============================================
+   CHARACTER HOVER EFFECT
+============================================ */
+
+.kakashi:hover,
+.sasuke:hover,
+.itachi:hover,
+.shikamaru:hover,
+.gaara:hover,
+.neji:hover,
+.rocklee:hover,
+.hinata:hover,
+.sakura:hover,
+.jiraiya:hover,
+.orochimaru:hover,
+.minato:hover{
+
+    transform:
+
+            scale(1.08)
+            rotate(-2deg);
+
+    box-shadow:
+
+            0 0 15px orange,
+            0 0 35px rgba(255,140,0,.6);
+
+}
+
+/* ============================================
+   CHARACTER GLOW
+============================================ */
+
+.kakashi{
+
+    box-shadow:0 0 15px #8ecae6;
+
+}
+
+.sasuke{
+
+    box-shadow:0 0 15px #7b2cbf;
+
+}
+
+.itachi{
+
+    box-shadow:0 0 15px #d90429;
+
+}
+
+.shikamaru{
+
+    box-shadow:0 0 15px #588157;
+
+}
+
+.gaara{
+
+    box-shadow:0 0 15px #e76f51;
+
+}
+
+.neji{
+
+    box-shadow:0 0 15px #90e0ef;
+
+}
+
+.rocklee{
+
+    box-shadow:0 0 15px #2a9d8f;
+
+}
+
+.hinata{
+
+    box-shadow:0 0 15px #b5179e;
+
+}
+
+.sakura{
+
+    box-shadow:0 0 15px #ff70a6;
+
+}
+
+.jiraiya{
+
+    box-shadow:0 0 15px #f4a261;
+
+}
+
+.orochimaru{
+
+    box-shadow:0 0 15px #9d4edd;
+
+}
+
+.minato{
+
+    box-shadow:0 0 15px #ffd166;
+
+}
+
+/* ============================================
+   BUTTON TRANSITION
+============================================ */
+
+.kakashi,
+.sasuke,
+.itachi,
+.shikamaru,
+.gaara,
+.neji,
+.rocklee,
+.hinata,
+.sakura,
+.jiraiya,
+.orochimaru,
+.minato{
+
+    transition:
+
+            .35s ease;
+
+}
+/* ============================================
+   PART 4
+   FINAL EFFECTS
+============================================ */
+
+/* Naruto Equal Button */
+
+.equal{
+
+    background-image:url("../images/naruto.png");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    position:relative;
+
+    overflow:hidden;
+
+    color:white;
+
+    font-size:42px;
+
+    font-weight:bold;
+
+    text-shadow:
+            0 0 10px black,
+            0 0 20px black;
+
+    border:3px solid orange;
+
+    box-shadow:
+            0 0 20px orange,
+            0 0 45px #ff9800,
+            0 0 70px #ff5722;
+
+    animation:
+            narutoGlow 2s infinite alternate,
+            pulse 2s infinite;
+
+}
+
+.equal::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(255,140,0,.20);
+
+}
+
+.equal:hover{
+
+    transform:
+            scale(1.12);
+
+    box-shadow:
+            0 0 30px yellow,
+            0 0 60px orange,
+            0 0 100px red;
+
+}
+
+.equal:active{
+
+    transform:scale(.95);
+
+}
+
+/* Naruto Glow */
+
+@keyframes narutoGlow{
+
+    from{
+
+        box-shadow:
+                0 0 20px orange,
+                0 0 50px #ff9800;
+
+    }
+
+    to{
+
+        box-shadow:
+                0 0 35px gold,
+                0 0 70px orange,
+                0 0 110px red;
+
+    }
+
+}
+
+/* Floating Animation */
+
+.calculator-container{
+
+    animation:floating 4s ease-in-out infinite;
+
+}
+
+@keyframes floating{
+
+    0%{
+
+        transform:translateY(0px);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+    100%{
+
+        transform:translateY(0px);
+
+    }
+
+}
+
+/* Display Glow */
+
+.display{
+
+    animation:displayGlow 3s infinite alternate;
+
+}
+
+@keyframes displayGlow{
+
+    from{
+
+        box-shadow:
+                inset 0 4px 12px rgba(0,0,0,.25),
+                0 0 15px rgba(255,170,0,.3);
+
+    }
+
+    to{
+
+        box-shadow:
+                inset 0 4px 12px rgba(0,0,0,.25),
+                0 0 30px orange;
+
+    }
+
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:orange;
+
+    border-radius:20px;
+
+}
+
+/* Selection */
+
+::selection{
+
+    background:orange;
+
+    color:white;
+
+}
+
+/* Focus */
+
+button:focus{
+
+    outline:none;
+
+}
+
+/* Responsive */
+
+@media(max-width:600px){
+
+    .calculator-container{
+
+        width:95%;
+
+        padding:18px;
+
+    }
+
+    .header-image{
+
+        height:120px;
+
+    }
+
+    .display{
+
+        height:65px;
+
+        font-size:28px;
+
+    }
+
+    .calculator-table td{
+
+        width:65px;
+
+        height:65px;
+
+    }
+
+    .calculator-table button{
+
+        height:65px;
+
+        font-size:22px;
+
+    }
+
+    .equal{
+
+        font-size:30px;
+
+    }
+
+}
+
+/* Background Sparkles */
+
+body::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:
+
+            radial-gradient(circle at 20% 20%,rgba(255,165,0,.3) 2px,transparent 2px),
+
+            radial-gradient(circle at 70% 30%,rgba(255,255,255,.15) 2px,transparent 2px),
+
+            radial-gradient(circle at 40% 80%,rgba(255,165,0,.2) 2px,transparent 2px),
+
+            radial-gradient(circle at 80% 70%,rgba(255,255,255,.15) 2px,transparent 2px);
+
+    animation:starsMove 18s linear infinite;
+
+    pointer-events:none;
+
+}
+
+@keyframes starsMove{
+
+    from{
+
+        transform:translateY(0);
+
+    }
+
+    to{
+
+        transform:translateY(-80px);
+
+    }
+
+}
+
+/* Footer Shadow */
+
+.calculator-container::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-18px;
+
+    left:10%;
+
+    width:80%;
+
+    height:20px;
+
+    background:rgba(0,0,0,.45);
+
+    filter:blur(15px);
+
+    border-radius:50%;
+
+    z-index:-1;
+
+}
+.number span{
+
+    position:absolute;
+
+    bottom:8px;
+
+    right:10px;
+
+    z-index:2;
+
+    color:white;
+
+    font-size:30px;
+
+    font-weight:bold;
+
+    text-shadow:
+            0 0 5px black,
+            0 0 10px black,
+            0 0 20px black;
+}
